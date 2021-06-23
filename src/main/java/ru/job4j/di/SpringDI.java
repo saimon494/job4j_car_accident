@@ -13,5 +13,7 @@ public class SpringDI {
         ui.add("Text2");
         ui.print();
         ui.askStr();
+        StartUI ui2 = context.getBean(StartUI.class);
+        ui2.print();
     }
 }
