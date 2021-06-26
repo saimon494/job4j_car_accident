@@ -35,7 +35,7 @@ public class AccidentMem {
         accidents.put(accident.getId(), accident);
     }
 
-    public Accident findByIdAccident(int id) {
+    public Accident findAccidentById(int id) {
         return accidents.get(id);
     }
 }

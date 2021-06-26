@@ -25,19 +25,10 @@
                 Редактирование инцидента
             </div>
             <div class="card-body">
-                <form action="<c:url value='/save'/>" method='POST'>
-                    <input type="hidden" name="id" value="${accident.id}">
+                <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
                     <div class="form-group">
                         <label>Название:</label>
                         <input type="text" class="form-control" name="name" value="${accident.name}">
-                    </div>
-                    <div class="form-group">
-                        <label>Описание:</label>
-                        <input type="text" class="form-control" name="text" value="${accident.text}">
-                    </div>
-                    <div class="form-group">
-                        <label>Адрес:</label>
-                        <input type="text" class="form-control" name="address" value="${accident.address}">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Сохранить"/>
                 </form>
