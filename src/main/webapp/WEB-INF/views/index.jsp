@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="card-body pt-0 pb-0">
-                    <a href="<c:url value='/create'/>" class="btn btn-primary">Добавить инцидент</a>
+                <a href="<c:url value='/create'/>" class="btn btn-primary">Добавить инцидент</a>
                 <table id="table" class="table table-striped">
                     <thead>
                     <tr>
