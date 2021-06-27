@@ -27,16 +27,24 @@
             <div class="card-body">
                 <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
                     <div class="form-group">
-                        <label>Название:</label>
-                        <input type="text" class="form-control" name="name" value="${accident.name}">
+                        <label for="name">Название:</label>
+                        <input type="text" class="form-control" id="name" name="name" value="${accident.name}">
                     </div>
                     <div class="form-group">
-                        <label>Описание:</label>
-                        <input type="text" class="form-control" name="text" value="${accident.text}">
+                        <label for="type">Тип:</label>
+                        <select class="form-control" id="type" name="type.id">
+                            <c:forEach var="type" items="${types}" >
+                                <option value="${accident.type}">${accident.type.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Адрес:</label>
-                        <input type="text" class="form-control" name="address" value="${accident.address}">
+                        <label for="text">Описание:</label>
+                        <input type="text" class="form-control" id="text" name="text" value="${accident.text}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес:</label>
+                        <input type="text" class="form-control" id="address" name="address" value="${accident.address}">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Сохранить"/>
                 </form>

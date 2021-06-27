@@ -35,8 +35,9 @@
                     <thead>
                     <tr>
                         <th scope="col" style="width:2%">№</th>
-                        <th scope="col" style="width:18%">Название</th>
-                        <th scope="col" style="width:50%">Описание</th>
+                        <th scope="col" style="width:15%">Название</th>
+                        <th scope="col" style="width:15%">Тип</th>
+                        <th scope="col" style="width:40%">Описание</th>
                         <th scope="col" style="width:28%">Адрес</th>
                         <th scope="col" style="width:2%"></th>
                     </tr>
@@ -44,18 +45,11 @@
                     <tbody>
                     <c:forEach items="${accidents}" var="accident">
                         <tr>
-                            <td>
-                                <c:out value="${accident.id}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.name}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.text}"/>
-                            </td>
-                            <td>
-                                <c:out value="${accident.address}"/>
-                            </td>
+                            <td><c:out value="${accident.id}"/></td>
+                            <td><c:out value="${accident.name}"/></td>
+                            <td><c:out value="${accident.type.name}"/></td>
+                            <td><c:out value="${accident.text}"/></td>
+                            <td><c:out value="${accident.address}"/></td>
                             <td>
                                 <a href='<c:url value="/update?id=${accident.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
