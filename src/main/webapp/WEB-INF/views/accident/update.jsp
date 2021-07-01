@@ -33,8 +33,10 @@
                     <div class="form-group">
                         <label for="type">Тип:</label>
                         <select class="form-control" id="type" name="type.id">
-                            <c:forEach var="type" items="${types}" >
-                                <option value="${accident.type}">${accident.type.name}</option>
+                            <c:forEach var="type" items="${types}">
+                                <option value="${type.id}"
+                                        <c:if test="${type.id==accident.type.id}">selected</c:if>>${type.name}
+                                </option>
                             </c:forEach>
                         </select>
                     </div>

@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="type">Тип:</label>
                         <select class="form-control" id="type" name="type.id">
-                            <c:forEach var="type" items="${types}" >
+                            <c:forEach var="type" items="${types}">
                                 <option value="${type.id}">${type.name}</option>
                             </c:forEach>
                         </select>

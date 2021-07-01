@@ -7,35 +7,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.service.AccidentService;
 
 @Controller
 public class AccidentControl {
 
-    private final AccidentMem accidents;
+    private final AccidentService accidentService;
 
-    public AccidentControl(AccidentMem accidents) {
-        this.accidents = accidents;
+    public AccidentControl(AccidentService accidentService) {
+        this.accidentService = accidentService;
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("types", accidents.findAllAccidentTypes());
+        model.addAttribute("types", accidentService.findAllAccidentTypes());
         return "accident/create";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident) {
-        var type = accidents.findAccidentTypeById(accident.getType().getId());
-        accident.setType(type);
-        accidents.save(accident);
+        accidentService.save(accident);
         return "redirect:/";
     }
 
     @GetMapping("/update")
     public String update(@RequestParam("id") int id, Model model) {
-        model.addAttribute("accident", accidents.findAccidentById(id));
-        model.addAttribute("types", accidents.findAllAccidentTypes());
+        model.addAttribute("accident", accidentService.findAccidentById(id));
+        model.addAttribute("types", accidentService.findAllAccidentTypes());
         return "accident/update";
     }
 }
