@@ -36,9 +36,10 @@
                     <tr>
                         <th scope="col" style="width:2%">№</th>
                         <th scope="col" style="width:15%">Название</th>
-                        <th scope="col" style="width:15%">Тип</th>
-                        <th scope="col" style="width:40%">Описание</th>
-                        <th scope="col" style="width:28%">Адрес</th>
+                        <th scope="col" style="width:10%">Тип</th>
+                        <th scope="col" style="width:10%">Статьи</th>
+                        <th scope="col" style="width:38%">Описание</th>
+                        <th scope="col" style="width:23%">Адрес</th>
                         <th scope="col" style="width:2%"></th>
                     </tr>
                     </thead>
@@ -48,6 +49,11 @@
                             <td><c:out value="${accident.id}"/></td>
                             <td><c:out value="${accident.name}"/></td>
                             <td><c:out value="${accident.type.name}"/></td>
+                            <td>
+                                <c:forEach items="${accident.rules}" var="rule">
+                                    <c:out value="${rule.name}"/><br>
+                                </c:forEach>
+                            </td>
                             <td><c:out value="${accident.text}"/></td>
                             <td><c:out value="${accident.address}"/></td>
                             <td>
