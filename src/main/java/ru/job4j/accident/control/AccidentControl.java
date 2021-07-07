@@ -10,6 +10,7 @@ import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.function.BiConsumer;
 
 @Controller
 public class AccidentControl {
@@ -27,18 +28,28 @@ public class AccidentControl {
         return "accident/create";
     }
 
-    @PostMapping("/save")
-    public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        String[] rIds = req.getParameterValues("rIds");
-        accidentService.save(accident, rIds);
-        return "redirect:/";
-    }
-
     @GetMapping("/update")
     public String update(@RequestParam("id") int id, Model model) {
         model.addAttribute("accident", accidentService.findAccidentById(id));
         model.addAttribute("types", accidentService.findAllTypes());
         model.addAttribute("rules", accidentService.findAllRules());
         return "accident/update";
+    }
+
+    private String saveUpdate(Accident accident, HttpServletRequest request,
+                              BiConsumer<Accident, String[]> biCons) {
+        String[] rIds = request.getParameterValues("rIds");
+        biCons.accept(accident, rIds);
+        return "redirect:/";
+    }
+
+    @PostMapping("/save")
+    public String save(@ModelAttribute Accident accident, HttpServletRequest request) {
+        return saveUpdate(accident, request, accidentService::save);
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute Accident accident, HttpServletRequest request) {
+        return saveUpdate(accident, request, accidentService::update);
     }
 }

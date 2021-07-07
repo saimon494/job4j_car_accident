@@ -26,7 +26,7 @@
                 Редактирование инцидента
             </div>
             <div class="card-body">
-                <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
+                <form action="<c:url value='/update?id=${accident.id}'/>" method='POST'>
                     <div class="form-group">
                         <label for="name">Название:</label>
                         <input type="text" class="form-control" id="name" name="name" value="${accident.name}">

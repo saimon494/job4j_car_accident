@@ -4,37 +4,50 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.function.Consumer;
 
 @Service
 public class AccidentService {
 
-    private final AccidentMem rep;
+    private final AccidentJdbcTemplate store;
 
-    public AccidentService(AccidentMem rep) {
-        this.rep = rep;
+    public AccidentService(AccidentJdbcTemplate store) {
+        this.store = store;
     }
 
     public Collection<Accident> findAllAccidents() {
-        return rep.findAllAccidents();
+        return store.findAllAccidents();
     }
 
-    public void save(Accident accident, String[] ruleIds) {
-        rep.save(accident, Stream.of(ruleIds).mapToInt(Integer::parseInt).toArray());
+    public void save(Accident accident, String[] rIds) {
+        saveUpdate(accident, rIds, accident1 -> store.save(accident));
+    }
+
+    public void update(Accident accident, String[] rIds) {
+        saveUpdate(accident, rIds, accident1 -> store.update(accident));
+    }
+
+    private void saveUpdate(Accident accident, String[] rIds, Consumer<Accident> cons) {
+        AccidentType type = store.findTypeById(accident.getType().getId()).get();
+        accident.setType(type);
+        for (String rId : rIds) {
+            accident.addRule(store.findRuleById(Integer.parseInt(rId)).get());
+        }
+        cons.accept(accident);
     }
 
     public Accident findAccidentById(int id) {
-        return rep.findAccidentById(id);
+        return store.findAccidentById(id).orElse(null);
     }
 
     public Collection<AccidentType> findAllTypes() {
-        return rep.findAllTypes();
+        return store.findAllTypes();
     }
 
     public Collection<Rule> findAllRules() {
-        return rep.findAllRules();
+        return store.findAllRules();
     }
 }
