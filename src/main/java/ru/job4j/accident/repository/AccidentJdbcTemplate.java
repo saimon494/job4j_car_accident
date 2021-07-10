@@ -9,9 +9,7 @@ import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 
 import java.sql.PreparedStatement;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class AccidentJdbcTemplate {
@@ -64,44 +62,44 @@ public class AccidentJdbcTemplate {
         return updated > 0 && deleted > 0 && inserted > 0;
     }
 
-    public List<Accident> findAllAccidents() {
-        List<Accident> rsl = jdbc.query("select a.id as accident_id, a.name as accident_name, "
-                        + "a.text, a.address, a.type_id, t.name as type_name from accident as a "
-                        + "left join type as t on a.type_id = t.id",
-                (rs, row) -> {
-                    var accident = new Accident();
-                    accident.setId(rs.getInt("accident_id"));
-                    accident.setName(rs.getString("accident_name"));
-                    accident.setText(rs.getString("text"));
-                    accident.setAddress(rs.getString("address"));
-                    var type = new AccidentType();
-                    type.setId(rs.getInt("type_id"));
-                    type.setName(rs.getString("type_name"));
-                    accident.setType(type);
-                    return accident;
-                });
-        for (Accident accident : rsl) {
-            List<Rule> rules = jdbc.query("select * from accident_rule as a "
-                            + "left join rule as r on a.rule_id = r.id "
-                            + "where a.accident_id = ?",
-                    (rs, row) -> {
+    public Collection<Accident> findAllAccidents() {
+        return jdbc.query("select a.id as accident_id, a.name as accident_name, "
+                        + "a.text, a.address, a.type_id, t.name as type_name, "
+                        + "r.id as rule_id, r.name as rule_name from accident as a "
+                        + "left join type t on a.type_id = t.id "
+                        + "left join accident_rule ar on a.id = ar.accident_id "
+                        + "left join rule r on ar.rule_id = r.id ",
+                rs -> {
+                    Map<Integer, Accident> accidents = new HashMap<>();
+                    while (rs.next()) {
+                        int id = rs.getInt("accident_id");
                         var rule = new Rule();
-                        rule.setId(rs.getInt("id"));
-                        rule.setName(rs.getString("name"));
-                        return rule;
-                    }, accident.getId());
-            for (Rule rule : rules) {
-                accident.addRule(rule);
-            }
-        }
-        rsl.sort(Comparator.comparing(Accident::getId));
-        return rsl;
+                        rule.setId(rs.getInt("rule_id"));
+                        rule.setName(rs.getString("rule_name"));
+                        if (accidents.containsKey(id)) {
+                            accidents.get(id).addRule(rule);
+                            continue;
+                        }
+                        var accident = new Accident();
+                        accident.setId(id);
+                        accident.setName(rs.getString("accident_name"));
+                        accident.setText(rs.getString("text"));
+                        accident.setAddress(rs.getString("address"));
+                        var type = new AccidentType();
+                        type.setId(rs.getInt("type_id"));
+                        type.setName(rs.getString("type_name"));
+                        accident.setType(type);
+                        accident.addRule(rule);
+                        accidents.put(id, accident);
+                    }
+                    return accidents.values();
+                });
     }
 
     public Optional<Accident> findAccidentById(int id) {
         Accident accident = jdbc.query("select a.id as accident_id, a.name as accident_name, "
-                        + "a.text, a.address, a.type_id, t.name as type_name from accident as a "
-                        + "left join type as t on a.type_id = t.id where a.id = ?",
+                        + "a.text, a.address, a.type_id, t.name as type_name from accident a "
+                        + "left join type t on a.type_id = t.id where a.id = ?",
                 rs -> {
                     if (!rs.next()) {
                         return null;
@@ -120,8 +118,8 @@ public class AccidentJdbcTemplate {
         if (accident == null) {
             return Optional.empty();
         }
-        List<Rule> rules = jdbc.query("select * from accident_rule as a "
-                        + "left join rule as r on a.rule_id = r.id "
+        List<Rule> rules = jdbc.query("select * from accident_rule a "
+                        + "left join rule r on a.rule_id = r.id "
                         + "where a.accident_id = ?",
                 (rs, row) -> {
                     Rule rule = new Rule();
