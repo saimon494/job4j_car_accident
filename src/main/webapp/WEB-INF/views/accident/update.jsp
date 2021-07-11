@@ -46,7 +46,7 @@
                         <select class="form-control" id="rIds" name="rIds" multiple>
                             <c:forEach var="rule" items="${rules}">
                                 <option value="${rule.id}"
-                                        <c:if test="${fn:contains(accident.rules,rule.id)}">selected</c:if>>${rule.name}
+                                        <c:if test="${fn:contains(accident.rules,rule)}"> selected="selected"</c:if>>${rule.name}
                                 </option>
                             </c:forEach>
                         </select>

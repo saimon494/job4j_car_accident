@@ -60,6 +60,9 @@
                                 <a href='<c:url value="/update?id=${accident.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
+                                <a href="<c:url value='/delete?id=${accident.id}'/>">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

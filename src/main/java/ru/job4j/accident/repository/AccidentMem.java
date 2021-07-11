@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class AccidentMem {
 
     private static final AtomicInteger ACCIDENT_ID = new AtomicInteger(4);

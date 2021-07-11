@@ -36,6 +36,12 @@ public class AccidentControl {
         return "accident/update";
     }
 
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") int id) {
+        accidentService.delete(id);
+        return "redirect:/";
+    }
+
     private String saveUpdate(Accident accident, HttpServletRequest request,
                               BiConsumer<Accident, String[]> biCons) {
         String[] rIds = request.getParameterValues("rIds");
