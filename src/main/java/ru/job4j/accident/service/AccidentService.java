@@ -34,7 +34,8 @@ public class AccidentService {
         AccidentType type = store.findTypeById(accident.getType().getId()).get();
         accident.setType(type);
         for (String rId : rIds) {
-            accident.addRule(store.findRuleById(Integer.parseInt(rId)).get());
+            Rule rule = store.findRuleById(Integer.parseInt(rId)).get();
+            accident.addRule(rule);
         }
         cons.accept(accident);
     }

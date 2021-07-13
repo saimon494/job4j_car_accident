@@ -34,12 +34,17 @@ public class HbmConfig {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(
-            @Value("${hibernate.dialect}") String dialect, DataSource ds) {
+            @Value("${hibernate.dialect}") String dialect,
+            @Value("${hibernate.hbm2ddl.auto}") String hbm2Dll,
+            @Value("${hibernate.show_sql}") String showSql,
+            DataSource ds) {
         var sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(ds);
         sessionFactory.setPackagesToScan("ru.job4j.accident.model");
         var cfg = new Properties();
         cfg.setProperty("hibernate.dialect", dialect);
+        cfg.setProperty("hibernate.hbm2dll.auto", hbm2Dll);
+        cfg.setProperty("hibernate.show_sql", showSql);
         sessionFactory.setHibernateProperties(cfg);
         return sessionFactory;
     }

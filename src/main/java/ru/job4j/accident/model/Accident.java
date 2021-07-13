@@ -20,7 +20,7 @@ public class Accident {
     @JoinColumn(name = "type_id")
     private AccidentType type;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "accident_rule",
             joinColumns = {@JoinColumn(name = "accident_id")},
             inverseJoinColumns = {@JoinColumn(name = "rule_id")})

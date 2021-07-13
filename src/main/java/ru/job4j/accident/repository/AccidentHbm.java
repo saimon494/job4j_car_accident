@@ -23,8 +23,8 @@ public class AccidentHbm {
             session.beginTransaction();
             session.save(accident);
             session.getTransaction().commit();
-            return accident;
         }
+        return accident;
     }
 
     public boolean update(Accident accident) {
@@ -32,8 +32,8 @@ public class AccidentHbm {
             session.beginTransaction();
             session.update(accident);
             session.getTransaction().commit();
-            return true;
         }
+        return true;
     }
 
     public boolean deleteAccidentById(int id) {
@@ -50,7 +50,7 @@ public class AccidentHbm {
             return session.createQuery(
                     "select distinct a from Accident a "
                             + "join fetch a.type "
-                            + "join fetch a.rules order by a.id",
+                            + "left join fetch a.rules order by a.id",
                     Accident.class).list();
         }
     }
@@ -58,7 +58,14 @@ public class AccidentHbm {
     public Optional<Accident> findAccidentById(int id) {
         Accident accident;
         try (Session session = sf.openSession()) {
-            accident = session.find(Accident.class, id);
+            accident = session
+                    .createQuery(
+                            "select distinct a from Accident a "
+                                    + "join fetch a.type "
+                                    + "left join fetch a.rules where a.id =:paramId",
+                            Accident.class)
+                    .setParameter("paramId", id)
+                    .getSingleResult();
         }
         return accident == null ? Optional.empty() : Optional.of(accident);
     }
@@ -66,7 +73,7 @@ public class AccidentHbm {
     public List<AccidentType> findAllTypes() {
         try (Session session = sf.openSession()) {
             return session
-                    .createQuery("from AccidentType", AccidentType.class)
+                    .createQuery("select t from AccidentType t", AccidentType.class)
                     .list();
         }
     }
@@ -74,7 +81,13 @@ public class AccidentHbm {
     public Optional<AccidentType> findTypeById(int id) {
         AccidentType type;
         try (Session session = sf.openSession()) {
-            type = session.find(AccidentType.class, id);
+            type = session
+                    .createQuery(
+                            "select t from AccidentType t "
+                                    + "where t.id =:paramId",
+                            AccidentType.class)
+                    .setParameter("paramId", id)
+                    .getSingleResult();
         }
         return type == null ? Optional.empty() : Optional.of(type);
     }
@@ -82,7 +95,7 @@ public class AccidentHbm {
     public List<Rule> findAllRules() {
         try (Session session = sf.openSession()) {
             return session
-                    .createQuery("from Rule", Rule.class)
+                    .createQuery("select r from Rule r", Rule.class)
                     .list();
         }
     }
@@ -90,7 +103,13 @@ public class AccidentHbm {
     public Optional<Rule> findRuleById(int id) {
         Rule rule;
         try (Session session = sf.openSession()) {
-            rule = session.find(Rule.class, id);
+            rule = session
+                    .createQuery(
+                            "select r from Rule r "
+                                    + "where r.id =:paramId",
+                            Rule.class)
+                    .setParameter("paramId", id)
+                    .getSingleResult();
         }
         return rule == null ? Optional.empty() : Optional.of(rule);
     }
