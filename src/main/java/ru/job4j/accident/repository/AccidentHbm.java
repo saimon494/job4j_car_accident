@@ -2,15 +2,14 @@ package ru.job4j.accident.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Type;
 import ru.job4j.accident.model.Rule;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class AccidentHbm {
     private final SessionFactory sf;
 
@@ -70,22 +69,22 @@ public class AccidentHbm {
         return accident == null ? Optional.empty() : Optional.of(accident);
     }
 
-    public List<AccidentType> findAllTypes() {
+    public List<Type> findAllTypes() {
         try (Session session = sf.openSession()) {
             return session
-                    .createQuery("select t from AccidentType t", AccidentType.class)
+                    .createQuery("select t from Type t", Type.class)
                     .list();
         }
     }
 
-    public Optional<AccidentType> findTypeById(int id) {
-        AccidentType type;
+    public Optional<Type> findTypeById(int id) {
+        Type type;
         try (Session session = sf.openSession()) {
             type = session
                     .createQuery(
-                            "select t from AccidentType t "
+                            "select t from Type t "
                                     + "where t.id =:paramId",
-                            AccidentType.class)
+                            Type.class)
                     .setParameter("paramId", id)
                     .getSingleResult();
         }

@@ -18,7 +18,7 @@ public class Accident {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
-    private AccidentType type;
+    private Type type;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "accident_rule",
@@ -29,7 +29,7 @@ public class Accident {
     public Accident() {
     }
 
-    public Accident(int id, String name, String text, String address, AccidentType type) {
+    public Accident(int id, String name, String text, String address, Type type) {
         this.id = id;
         this.name = name;
         this.text = text;
@@ -69,11 +69,11 @@ public class Accident {
         this.address = address;
     }
 
-    public AccidentType getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(AccidentType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

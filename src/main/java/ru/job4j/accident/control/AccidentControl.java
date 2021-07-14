@@ -56,6 +56,6 @@ public class AccidentControl {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Accident accident, HttpServletRequest request) {
-        return saveUpdate(accident, request, accidentService::update);
+        return saveUpdate(accident, request, accidentService::save);
     }
 }

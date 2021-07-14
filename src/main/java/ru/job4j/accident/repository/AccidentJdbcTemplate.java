@@ -3,9 +3,8 @@ package ru.job4j.accident.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Type;
 import ru.job4j.accident.model.Rule;
 
 import java.sql.PreparedStatement;
@@ -85,7 +84,7 @@ public class AccidentJdbcTemplate {
                         accident.setName(rs.getString("accident_name"));
                         accident.setText(rs.getString("text"));
                         accident.setAddress(rs.getString("address"));
-                        var type = new AccidentType();
+                        var type = new Type();
                         type.setId(rs.getInt("type_id"));
                         type.setName(rs.getString("type_name"));
                         accident.setType(type);
@@ -109,7 +108,7 @@ public class AccidentJdbcTemplate {
                     acc.setName(rs.getString("accident_name"));
                     acc.setText(rs.getString("text"));
                     acc.setAddress(rs.getString("address"));
-                    var type = new AccidentType();
+                    var type = new Type();
                     type.setId(rs.getInt("type_id"));
                     type.setName(rs.getString("type_name"));
                     acc.setType(type);
@@ -133,24 +132,24 @@ public class AccidentJdbcTemplate {
         return Optional.of(accident);
     }
 
-    public List<AccidentType> findAllTypes() {
+    public List<Type> findAllTypes() {
         return jdbc.query(
                 "select * from type",
                 (rs, rowNum) -> {
-                    var type = new AccidentType();
+                    var type = new Type();
                     type.setId(rs.getInt("id"));
                     type.setName(rs.getString("name"));
                     return type;
                 });
     }
 
-    public Optional<AccidentType> findTypeById(int id) {
+    public Optional<Type> findTypeById(int id) {
         return jdbc.query("select * from type where id = ?",
                 rs -> {
                     if (!rs.next()) {
                         return Optional.empty();
                     }
-                    var type = new AccidentType();
+                    var type = new Type();
                     type.setId(rs.getInt("id"));
                     type.setName(rs.getString("name"));
                     return Optional.of(type);

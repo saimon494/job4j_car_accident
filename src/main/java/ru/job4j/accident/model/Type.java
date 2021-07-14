@@ -5,18 +5,18 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "type")
-public class AccidentType {
+public class Type {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
-    public AccidentType() {
+    public Type() {
     }
 
-    public static AccidentType of(int id, String name) {
-        AccidentType type = new AccidentType();
+    public static Type of(int id, String name) {
+        Type type = new Type();
         type.id = id;
         type.name = name;
         return type;
@@ -46,7 +46,7 @@ public class AccidentType {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AccidentType that = (AccidentType) o;
+        Type that = (Type) o;
         return id == that.id;
     }
 
