@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
@@ -26,6 +26,19 @@
                 <div class="form-row">
                     <div class="col-md-8 my-auto">
                         <h4 style="margin-bottom: 0">Автонарушения</h4>
+                    </div>
+                    <div class="col-md-4 my-auto">
+                        <div class="float-right">
+                            <ul class="nav" id="auth">
+                                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="<c:url value='/logout'/>">
+                                                ${pageContext.request.userPrincipal.name} | Выйти
+                                        </a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
