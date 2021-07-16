@@ -30,10 +30,10 @@
                     <div class="col-md-4 my-auto">
                         <div class="float-right">
                             <ul class="nav" id="auth">
-                                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                                <c:if test="${user != null}">
                                     <li class="nav-item active">
                                         <a class="nav-link" href="<c:url value='/logout'/>">
-                                                ${pageContext.request.userPrincipal.name} | Выйти
+                                                ${user.username} | Выйти
                                         </a>
                                     </li>
                                 </c:if>
