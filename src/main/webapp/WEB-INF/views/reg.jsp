@@ -29,12 +29,12 @@
                     <div class="col-md-4 my-auto">
                         <div class="float-right">
                             <ul class="nav" id="auth">
-                                <li class="nav-item active">
+                                <li class="nav-item">
                                     <a class="nav-link" href="<c:url value='/login'/>" id="a1">
                                         Авторизация
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item active">
                                     <a class="nav-link" href="<c:url value='/reg'/>" id="a2">
                                         Регистрация
                                     </a>
@@ -45,16 +45,16 @@
                 </div>
             </div>
             <div class="card-body">
-                <form name="login" action="<c:url value='/login'/>" method='POST'>
+                <form name="reg" action="<c:url value='/reg'/>" method='POST'>
                     <div class="form-group">
                         <label for="username">Имя пользователя</label>
-                        <input type="text" class="form-control" name="username" id="username" required>
+                        <input type="text" class="form-control" name="username" id="username" title="Имя" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Пароль</label>
-                        <input type="password" class="form-control" name="password" id="password" required>
+                        <input type="password" class="form-control" name="password" id="password" title="Пароль" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                     <c:if test="${not empty errorMessage}">
                         <div class="alert alert-danger mt-3 mb-0" role="alert" id="msg">${errorMessage}</div>
                     </c:if>
@@ -65,4 +65,4 @@
     </div>
 </div>
 </body>
-</html> 
+</html>
